@@ -29,22 +29,36 @@ const data = [
 
 
 class Dashboard extends Component {
-  state = { loading: false }
+  state = { 
+    focused: null,  //null = unfocused four panel view  // id# = focused
+    loading: false
+  }
+  selectPanel(id) {
+    this.setState({
+     focused: id
+    });
+   }
+   
+
   render() {
 
-    const dashboardClasses = classnames("dashboard");
-    if (this.state.loading) {
+    const dashboardClasses = classnames("dashboard", {
+      "dashboard--focused": this.state.focused
+    });
+    if (this.state.loading) {  //We are using this.setState to apply state changes. It is an instance method provided by the React.Component superclass.
       return <Loading />;
     }
-    const panels = data.map(panel => (
-      <Panel
-        key={panel.id}
-        id={panel.id}
-        label={panel.label}
-        value={panel.value}
-      />
-    ));
-
+    const panels = (this.state.focused ? data.filter(panel => this.state.focused === panel.id) : data)
+   .map(panel => (
+    <Panel
+     key={panel.id}
+     id={panel.id}
+     label={panel.label}
+     value={panel.value}
+     onSelect={this.selectPanel}
+    />
+   ));
+    
     return <main className={dashboardClasses}>{panels}</main>;
   }
 }

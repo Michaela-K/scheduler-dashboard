@@ -33,9 +33,10 @@ class Dashboard extends Component {
     focused: null,  //null = unfocused four panel view  // id# = focused
     loading: false
   }
+  //the selectPanel instance method
   selectPanel(id) {
-    this.setState({
-     focused: id
+    this.setState({   //this is the Dashboard instance
+     focused: id      //Now when we call this.setState it will be the setState method of the Dashboard component.
     });
    }
    
@@ -55,7 +56,7 @@ class Dashboard extends Component {
      id={panel.id}
      label={panel.label}
      value={panel.value}
-     onSelect={this.selectPanel}
+     onSelect={event => this.selectPanel(panel.id)}
     />
    ));
     
